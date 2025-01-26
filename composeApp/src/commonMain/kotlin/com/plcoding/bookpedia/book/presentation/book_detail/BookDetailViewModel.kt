@@ -9,6 +9,8 @@ import com.plcoding.bookpedia.book.domain.BookRepository
 import com.plcoding.bookpedia.core.domain.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -21,8 +23,10 @@ class BookDetailViewModel(
     private val _state = MutableStateFlow(BookDetailState())
     val state = _state.onStart {
         fetchBookDescription()
+        observeFavoriteStatus()
     }
-        .stateIn(viewModelScope,
+        .stateIn(
+            viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
             _state.value
         )
@@ -41,11 +45,32 @@ class BookDetailViewModel(
             }
 
             BookDetailAction.OnFavoriteClick -> {
-
+                viewModelScope.launch {
+                    if (state.value.isFavorite) {
+                        bookRepository.deleteFromFavorites(id = bookId)
+                    } else {
+                        state.value.book?.let { book ->
+                            bookRepository.markAsFavorite(book)
+                        }
+                    }
+                }
             }
 
             else -> Unit
         }
+    }
+
+    private fun observeFavoriteStatus() {
+        bookRepository
+            .isBookFavorite(bookId)
+            .onEach { isFavorite ->
+                _state.update {
+                    it.copy(
+                        isFavorite = isFavorite
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun fetchBookDescription() {
