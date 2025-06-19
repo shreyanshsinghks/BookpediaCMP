@@ -8,9 +8,9 @@
 
 ## 🌟 Overview
 
-![Image](https://github.com/user-attachments/assets/ec2cfcb6-23a1-4ecc-a6b8-b7ee33adff6f)
-![Image](https://github.com/user-attachments/assets/28633e19-442e-4400-b25c-2277b633c3d4)
-![Image](https://github.com/user-attachments/assets/778e6f8a-7a9d-4875-b207-461832d630a8)
+<img src="https://github.com/user-attachments/assets/ec2cfcb6-23a1-4ecc-a6b8-b7ee33adff6f" width="300"/>
+<img src="https://github.com/user-attachments/assets/28633e19-442e-4400-b25c-2277b633c3d4" width="300"/>
+<img src="https://github.com/user-attachments/assets/778e6f8a-7a9d-4875-b207-461832d630a8" width="300"/>
 
 **BookpediaCMP** is a comprehensive book search and discovery application...
 
